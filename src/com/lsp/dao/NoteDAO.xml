@@ -18,8 +18,13 @@
 		select user.*,note.* from user,note where user.uid=note.userid and user.uid=#{id}
 	</select>
 	
-	<select id="selectAllNotes" resultMap="noteList">
+	<select id="selectAllNotes" parameterType="com.lsp.entity.Note" resultMap="noteList">
 		select user.*,note.* from user,note where user.uid=note.userid
+		<!-- 动态sql -->
+		<!-- 注意点： %必须是双引号，不能使单引号  parameterType可声明可不声明。为什么这么强大灵活？-->
+		<if test="title != null">
+		   and note.title like "%"#{title}"%"
+		</if>
 	</select>
 	
 	<!-- 这里的result必须是我们配置的noteList，不然不能根据note得到user的name -->

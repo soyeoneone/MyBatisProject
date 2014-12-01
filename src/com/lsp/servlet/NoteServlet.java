@@ -16,6 +16,7 @@ import org.junit.BeforeClass;
 
 import com.lsp.dao.NoteDAO;
 import com.lsp.dao.UserDAO;
+import com.lsp.entity.Note;
 
 public class NoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -47,7 +48,7 @@ public class NoteServlet extends HttpServlet {
 			SqlSession session = sqlSessionFactory.openSession();
 			NoteDAO ndao = session.getMapper(NoteDAO.class);
 			UserDAO udao = session.getMapper(UserDAO.class);
-			request.setAttribute("notes", ndao.selectAllNotes());
+			request.setAttribute("notes", ndao.selectAllNotes(new Note()));
 			request.setAttribute("users", udao.selectAllUser());
 		}
 		if("queryByUserid".equals(status)){

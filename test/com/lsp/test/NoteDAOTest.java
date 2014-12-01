@@ -39,4 +39,18 @@ public class NoteDAOTest {
 		}
 		session.close();
 	}
+	
+	@Test
+	public void queryAllNotes(){
+		SqlSession session = sqlSessionFactory.openSession();
+		NoteDAO ndao = session.getMapper(NoteDAO.class);
+		Note note = new Note();
+		note.setTitle("БъЬт1");
+		List<Note> notes = ndao.selectAllNotes(note);
+		System.out.println(notes.size());
+		for(Note n:notes){
+			System.out.println(n.getTitle()+" "+n.getUser().getName());
+		}
+		session.close();
+	}
 }
