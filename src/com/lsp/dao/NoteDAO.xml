@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lsp.dao.NoteDAO">
+	<resultMap type="com.lsp.entity.Note" id="noteList">
+		<id column="nid" property="id"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<association property="user" javaType="com.lsp.entity.User">
+			<id column="uid" property="id" />
+			<result column="name" property="name" />
+			<result column="password" property="password" />
+		</association>
+	</resultMap>
+	
+	<select id="selectNoteByUserid" parameterType="int" resultMap="noteList">
+		select user.*,note.* from user,note where user.uid=note.userid and user.uid=#{id}
+	</select>
+	
+	<select id="selectAllNotes" resultMap="noteList">
+		select user.*,note.* from user,note where user.uid=note.userid
+	</select>
+	
+	<!-- 这里的result必须是我们配置的noteList，不然不能根据note得到user的name -->
+	<select id="selectByNoteid" parameterType="int" resultMap="noteList">
+		select user.*,note.* from note,user where user.uid=note.userid and note.nid=#{id}
+	</select>
+</mapper>
